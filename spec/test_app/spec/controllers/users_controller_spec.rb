@@ -22,7 +22,6 @@ RSpec.describe UsersController, :type => :controller do
       end
     end
 
-
     it "add method `method_name` in :with options to controller" do
       post :login_method, params
       expect(controller.respond_to?(:login_method)).to eq(true)
@@ -31,6 +30,27 @@ RSpec.describe UsersController, :type => :controller do
     it "invokes `login` method with `account` and `validator`, which should return an user instance" do
       expect(user_class).to receive(:login).with(account, validator)
       post :login_method, params
+    end
+
+    it "returns 400 if no `account` in params" do
+      params.delete :account
+      post :login_method, params
+
+      expect(response.status).to eq(400)
+    end
+
+    it "returns 400 if no `validator` in params" do
+      params.delete :validator
+      post :login_method, params
+
+      expect(response.status).to eq(400)
+    end
+
+    it "returns 409 if UserClass::login returns nil" do
+      allow(user_class).to receive(:login).and_return(nil)
+      post :login_method, params
+
+      expect(response.status).to eq(409)
     end
   end
 end
