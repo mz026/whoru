@@ -26,19 +26,21 @@ After the setup above, the `/fb_login` api would take
 
 ```json
 {
-  account: 'the-account',
-  validator: 'the-validator'
+  "account": "the-account",
+  "validator": "the-validator"
 }
 ```
 
+- `200`: When success, returns `user.as_json` 
+- `409`: When login failed, returns `409`
+- `400`: Returns `400` if miss parameters
+
 ### App Login:
-When success, returns `user.as_json` with `access_token` merged into response.
+Append `access_token` onto response.
 
 ### Web Login:
 TokenPostman does web login if `params[:cookie]` exists.
 When web login, TokenPostman appends `access_token` on `cookies['TOKEN_POSTMAN']`, instead of appending it on response.
-
-Both Login mode returns `400` if missing parameter, and returns 409 if login failed.
 
 
 ## How it works:
