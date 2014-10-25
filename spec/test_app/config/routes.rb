@@ -1,4 +1,5 @@
 TestApp::Application.routes.draw do
+  post '/login' => 'users#login_method'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
