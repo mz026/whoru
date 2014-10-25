@@ -11,6 +11,7 @@ module TokenPostman
     def base.login user_class, options
       instance_method_name = options[:with]
       define_method instance_method_name do
+        user = user_class.login(params[:account], params[:validator])
         render :text => 'hi'
       end
     end
