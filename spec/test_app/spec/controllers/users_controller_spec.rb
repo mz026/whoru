@@ -74,8 +74,29 @@ RSpec.describe UsersController, :type => :controller do
       }.to raise_error(TokenPostman::MethodNotImplementedException)
     end
 
-    it "handles the case of web login" do
-      
+    context "if `cookie` exists in params" do
+      let(:web_access_token) { 'the-web-access-token' }
+      before :each do
+        params[:cookie] = 1
+        expect(user).not_to receive(:generate_access_token)
+      end
+
+      it "generate web_access_token and put it into `TOKEN_POSTMAN` in cookie" do
+        allow(user).to receive(:generate_web_access_token)
+                          .and_return(web_access_token)
+
+        post :login_method, params
+
+        expect(controller.send(:cookies)['TOKEN_POSTMAN']).to eq(web_access_token)
+      end
+
+      it "ensure UserClass#generate_web_access_token exists" do
+        allow(user_class).to receive(:login).and_return(double(:user))
+        expect {
+          post :login_method, params
+        }.to raise_error(TokenPostman::MethodNotImplementedException)
+      end
     end
+
   end
 end
