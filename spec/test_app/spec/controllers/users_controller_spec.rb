@@ -59,5 +59,23 @@ RSpec.describe UsersController, :type => :controller do
 
       expect(JSON.parse(response.body)['access_token']).to eq(access_token)
     end
+
+    it "makes sure `UserClass::login` exists" do
+      user_klass = double(:user_class_without_login)
+      expect {
+        UsersController.login user_klass, :with => :login_method
+      }.to raise_error(TokenPostman::MethodNotImplementedException)
+    end
+
+    it "makes sure `UserClass#generate_access_token` exists" do
+      allow(user_class).to receive(:login).and_return(double(:user_without_generate_token))
+      expect {
+        post :login_method, params
+      }.to raise_error(TokenPostman::MethodNotImplementedException)
+    end
+
+    it "handles the case of web login" do
+      
+    end
   end
 end
