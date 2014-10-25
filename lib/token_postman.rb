@@ -15,7 +15,7 @@ module TokenPostman
           user = user_class.login(params.require(:account), params.require(:validator))
 
           if user
-            render :text => 'hi'
+            render :json => user.as_json.merge(:access_token => user.generate_access_token)
           else
             render :json => { :reason => 'login failed' },
                    :status => 409
