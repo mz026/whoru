@@ -7,11 +7,11 @@ require "token_postman/version"
 Gem::Specification.new do |s|
   s.name        = "token_postman"
   s.version     = TokenPostman::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of TokenPostman."
-  s.description = "TODO: Description of TokenPostman."
+  s.authors     = ["Yang-Hsing Lin"]
+  s.email       = ["yanghsing.lin@gmail.com"]
+  s.homepage    = "https://github.com/mz026/token_postman"
+  s.summary     = "A rails plugin handling login stuff in controller"
+  s.description = "A rails plugin handling login stuff in controller"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
