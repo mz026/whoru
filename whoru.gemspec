@@ -1,15 +1,15 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "token_postman/version"
+require "whoru/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "token_postman"
-  s.version     = TokenPostman::VERSION
+  s.name        = "whoru"
+  s.version     = Whoru::VERSION
   s.authors     = ["Yang-Hsing Lin"]
   s.email       = ["yanghsing.lin@gmail.com"]
-  s.homepage    = "https://github.com/mz026/token_postman"
+  s.homepage    = "https://github.com/mz026/whoru"
   s.summary     = "A rails plugin handling login stuff in controller"
   s.description = "A rails plugin handling login stuff in controller"
 

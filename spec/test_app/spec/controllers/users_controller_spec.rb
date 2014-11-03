@@ -18,7 +18,7 @@ RSpec.describe UsersController, :type => :controller do
     before :each do
       user_klass = user_class
       UsersController.class_eval do
-        include TokenPostman
+        include Whoru
         login user_klass, :with => :login_method
       end
     end
@@ -64,14 +64,14 @@ RSpec.describe UsersController, :type => :controller do
       user_klass = double(:user_class_without_login)
       expect {
         UsersController.login user_klass, :with => :login_method
-      }.to raise_error(TokenPostman::MethodNotImplementedException)
+      }.to raise_error(Whoru::MethodNotImplementedException)
     end
 
     it "makes sure `UserClass#generate_access_token` exists" do
       allow(user_class).to receive(:login).and_return(double(:user_without_generate_token))
       expect {
         post :login_method, params
-      }.to raise_error(TokenPostman::MethodNotImplementedException)
+      }.to raise_error(Whoru::MethodNotImplementedException)
     end
 
     context "if `cookie` exists in params" do
@@ -94,7 +94,7 @@ RSpec.describe UsersController, :type => :controller do
         allow(user_class).to receive(:login).and_return(double(:user))
         expect {
           post :login_method, params
-        }.to raise_error(TokenPostman::MethodNotImplementedException)
+        }.to raise_error(Whoru::MethodNotImplementedException)
       end
     end
 

@@ -1,17 +1,17 @@
-# TokenPostman
+# Whoru
 
 A Rails plugin handling login stuff in Controller
 
 ## Installation
 
-add `gem 'token_postman'` in the `Gemfile` and then `$ bundle install`
+add `gem 'whoru'` in the `Gemfile` and then `$ bundle install`
 
 ## Usage
 
 in `users_controller.rb`
 ```ruby
 class UsersController < ApplicationController
-  include TokenPostman
+  include Whoru
   login FacebookUser, :with => :facebook_login
 end
 ```
@@ -39,19 +39,19 @@ After the setup above, the `/fb_login` api would take
 Append `access_token` onto response.
 
 ### Web Login:
-TokenPostman does web login if `params[:cookie]` exists.
-When web login, TokenPostman appends `access_token` on `cookies['TOKEN_POSTMAN']`, instead of appending it on response.
+Whoru does web login if `params[:cookie]` exists.
+When web login, Whoru appends `access_token` on `cookies['WHORU']`, instead of appending it on response.
 
 
 ## How it works:
 Take the setup above as an example:
 
-TokenPostman create a method `facebook_login` on the fly.
-In the created method, TokenPostman takes `params[:account]` and `params[:validator]` 
+Whoru create a method `facebook_login` on the fly.
+In the created method, Whoru takes `params[:account]` and `params[:validator]` 
 and pass them into `FacebookUser::login(account, validator)`, which should return a user.
 
-TokenPostman then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
-It would raise `TokenPostman::MethodNotImplementedException` if any one of `FacebookUser::login`, `FacebookUser#generate_access_token`, `FacebookUser#generate_web_access_token` is not implemented.
+Whoru then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
+It would raise `Whoru::MethodNotImplementedException` if any one of `FacebookUser::login`, `FacebookUser#generate_access_token`, `FacebookUser#generate_web_access_token` is not implemented.
 
 
 ## Model Requirement

@@ -8,7 +8,7 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require(*Rails.groups)
-require "token_postman"
+require "whoru"
 
 module TestApp
   class Application < Rails::Application

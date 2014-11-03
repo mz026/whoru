@@ -1,4 +1,4 @@
-module TokenPostman
+module Whoru
   class MethodNotImplementedException < Exception; end
   def self.included base
 
