@@ -1,0 +1,15 @@
+class ApplicationController
+  include Whoru
+  authenticate :user_class => User,
+               :user_id => :user_id,
+               :header_token => 'x-access-token',
+               :cookie_token => 'WHORU_AUTH'
+
+  skip_authenticte_on :login, :anonymous_action
+end
+
+
+requirement: 
+UserClass#has_access_token?(token_string)
+
+Use `UserClass.where(:id => 'the-id').first` instead of `::find` to accomondate non ActiveRecord classes like Mongoid
