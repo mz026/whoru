@@ -1,4 +1,5 @@
 module Whoru
-  require 'whoru/whoru'
-  require 'whoru/filters/authenticate_filter'
+  require 'whoru/exceptions'
+  require 'whoru/login'
+  require 'whoru/authenticate'
 end

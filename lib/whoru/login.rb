@@ -1,5 +1,4 @@
-module Whoru
-  class MethodNotImplementedException < Exception; end
+module Whoru::Login
   def self.included base
 
     base.class_eval do
@@ -20,7 +19,7 @@ module Whoru
 
       def ensure_method_exists(user, method_name)
         unless user.respond_to?(method_name)
-          raise MethodNotImplementedException, 
+          raise ::Whoru::MethodNotImplementedException, 
                 "#{user.class} should have `##{method_name}` method"
         end
       end
@@ -70,7 +69,7 @@ module Whoru
 
       def ensure_login_method_exists user_class
         unless user_class.respond_to?(:login)
-          raise MethodNotImplementedException, 
+          raise ::Whoru::MethodNotImplementedException, 
                 "#{user_class} should have `::login` method"
         end
       end

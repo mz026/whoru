@@ -18,7 +18,7 @@ RSpec.describe UsersController, :type => :controller do
     before :each do
       user_klass = user_class
       UsersController.class_eval do
-        include Whoru
+        include Whoru::Login
         login user_klass, :with => :login_method
       end
     end

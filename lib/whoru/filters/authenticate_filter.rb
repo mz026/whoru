@@ -2,14 +2,14 @@ module Whoru
   class AuthenticateFilter
     TOKEN_KEY_IN_HEADERS = 'x-access-token'
 
-    @options = {
+    @default_options = @options = {
       :user_id => :user_id,
       :header_token => 'x-access-token'
     }
 
     class << self
       def config options
-        @options.merge!(options)
+        @options = @options.merge(options)
       end
 
       def before(controller)
