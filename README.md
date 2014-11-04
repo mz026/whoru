@@ -7,7 +7,7 @@ A Rails plugin handling login stuff in Controller
 add `gem 'whoru'` in the `Gemfile` and then `$ bundle install`
 
 ## Login
-1. Setup
+### Usage:
 in `users_controller.rb`
 ```ruby
 class UsersController < ApplicationController
@@ -21,7 +21,6 @@ in `config/routes.rb`
 post '/fb_login' => 'users#facebook_login'
 ```
 
-2. 
 After the setup above, the `/fb_login` api would take 
 
 ```json
@@ -39,18 +38,18 @@ After the setup above, the `/fb_login` api would take
 Append `access_token` onto response.
 
 ### Web Login:
-Whoru does web login if `params[:cookie]` exists.
-When web login, Whoru appends `access_token` on `cookies['WHORU']`, instead of appending it on response.
+`Whoru` does web login if `params[:cookie]` exists.
+When web login, `Whoru` appends `access_token` on `cookies['WHORU']`, instead of appending it on response.
 
 
 ### How it works:
 Take the setup above as an example:
 
-Whoru create a method `facebook_login` on the fly.
-In the created method, Whoru takes `params[:account]` and `params[:validator]` 
+`Whoru` create a method `facebook_login` on the fly.
+In the created method, `Whoru` takes `params[:account]` and `params[:validator]` 
 and pass them into `FacebookUser::login(account, validator)`, which should return a user.
 
-Whoru then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
+`Whoru` then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
 It would raise `Whoru::MethodNotImplementedException` if any one of `FacebookUser::login`, `FacebookUser#generate_access_token`, `FacebookUser#generate_web_access_token` is not implemented.
 
 
@@ -68,7 +67,8 @@ should return an access for web login
 ----
 
 ## Authenticate
-1. config `ApplicationController` or any controller class to be inherited by controllers:
+### Usage:
+config `ApplicationController` or any controller class to be inherited:
 
 ```ruby
 class ApplicationController
@@ -80,14 +80,14 @@ class ApplicationController
 end
 ```
 
-2. The setting above creates an instance method `authenticate` on ApplicationController and 
-   assigns `before_filter` to that method.
-   The created `authenticate` method will:
+The setting above creates an instance method `authenticate` on ApplicationController and assigns `before_filter` to that method.
 
-   - passes if no `user_id` in params
-   - return `404` if User of `params[:user_id]` not found
-   - return `401` if no `x-access-token` in request header
-   - return `401` if `x-access-token` does not match with the user, this is done by `User#has_access_token(token)`
+The created `authenticate` method will:
+
+- passes if no `user_id` in params
+- return `404` if User of `params[:user_id]` not found
+- return `401` if no `x-access-token` in request header
+- return `401` if `x-access-token` does not match with the user, this is done by `User#has_access_token(token)`
 
 ## Model Requirements:
 - `User#has_access_token?(token)`: takes a string as argument, returns if user has the given access token
