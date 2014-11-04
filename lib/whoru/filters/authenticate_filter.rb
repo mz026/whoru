@@ -16,7 +16,7 @@ module Whoru
         return unless controller.params[@options[:user_id]]
 
         token_string = access_token(controller)
-        user = User.where(controller.params[@options[:user_id]]).first
+        user = User.where(:id => controller.params[@options[:user_id]]).first
         return_404(controller) and return unless user
         return_401(controller) and return unless token_string
         return_401(controller) and return unless user.has_access_token?(token_string)

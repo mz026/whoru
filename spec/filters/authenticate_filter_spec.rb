@@ -26,12 +26,12 @@ describe Whoru::AuthenticateFilter do
       let(:token_header_key) { 'x-custom-token-key' }
       before :each do
         params[:user_id] = user.id
-        allow(User).to receive(:where).and_return([ user ])
+        allow(User).to receive(:where).with(:id => user.id).and_return([ user ])
       end
 
       before :each do
         subject.config(:user_class => User,
-                                  :header_token => token_header_key)
+                       :header_token => token_header_key)
       end
 
       it "returns 404 if user not found" do
