@@ -9,7 +9,7 @@ describe Whoru::Authenticate do
   end
 
   context 'when included' do
-    it "adds an `authenticate` method to base controller" do
+    it "adds an `authenticate` method to base controller class" do
       expect(controller_class.respond_to?(:authenticate)).to eq(true)
     end
   end
@@ -40,24 +40,34 @@ describe Whoru::Authenticate do
       controller_class.authenticate options
     end
 
-    it "defines `with` method on controller" do
-      controller_class.authenticate options
-      expect(controller_class.method_defined?(created_method_name)).to eq(true)
+    shared_examples "created `with` method" do |method_name|
+      it "defines `with` method on controller" do
+        controller_class.authenticate options
+        expect(controller_class.method_defined?(method_name)).to eq(true)
+      end
+
+      it "sets before_filter to `with` method" do
+        expect(controller_class).to receive(:before_filter).with(method_name)
+        controller_class.authenticate options
+      end
+
+      it "delegate to AuthenticateFilter.before in created `with` method" do
+        controller_class.authenticate options
+
+        controller = controller_class.new
+
+        expect(Whoru::AuthenticateFilter).to receive(:before).with(controller)
+        controller.send(method_name)
+      end
     end
 
-    it "sets before_filter to `with` method" do
-      expect(controller_class).to receive(:before_filter).with(created_method_name)
-      controller_class.authenticate options
+    context "when `with` is given in options" do
+      include_examples "created `with` method", :created_method_name
     end
 
-    it "delegate to AuthenticateFilter.before in created `with` method" do
-      controller_class.authenticate options
-
-      controller = controller_class.new
-
-      expect(Whoru::AuthenticateFilter).to receive(:before).with(controller)
-      controller.send(created_method_name)
+    context "when `with` is not given, use default `whoru_authenticate as method_name`" do
+      before(:each) { options.delete :with }
+      include_examples "created `with` method", :whoru_authenticate
     end
-
   end
 end

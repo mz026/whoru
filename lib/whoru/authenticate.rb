@@ -5,7 +5,7 @@ module Whoru
     def self.included base
       def base.authenticate options
         AuthenticateFilter.config options
-        auth_method = options[:with]
+        auth_method = options[:with] || :whoru_authenticate
 
         define_method(auth_method) do
           AuthenticateFilter.before(self)
