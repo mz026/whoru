@@ -38,18 +38,18 @@ After the setup above, the `/fb_login` api would take
 Append `access_token` onto response.
 
 ### Web Login:
-`Whoru` does web login if `params[:cookie]` exists.
-When web login, `Whoru` appends `access_token` on `cookies['WHORU']`, instead of appending it on response.
+`whoru` does web login if `params[:cookie]` exists.
+When web login, `whoru` appends `access_token` on `cookies['WHORU']`, instead of appending it on response.
 
 
 ### How it works:
 Take the setup above as an example:
 
-`Whoru` create a method `facebook_login` on the fly.
-In the created method, `Whoru` takes `params[:account]` and `params[:validator]` 
+`whoru` create a method `facebook_login` on the fly.
+In the created method, `whoru` takes `params[:account]` and `params[:validator]` 
 and pass them into `FacebookUser::login(account, validator)`, which should return a user.
 
-`Whoru` then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
+`whoru` then invokes `user#generate_access_token`(`user#generate_web_access_token` for web login) and appends it on response / cookies.
 It would raise `Whoru::MethodNotImplementedException` if any one of `FacebookUser::login`, `FacebookUser#generate_access_token`, `FacebookUser#generate_web_access_token` is not implemented.
 
 
@@ -91,6 +91,35 @@ The created `authenticate` method will:
 
 ## Model Requirements:
 - `User#has_access_token?(token)`: takes a string as argument, returns if user has the given access token
+
+
+----
+
+## Testing
+Testing is good for your health. 
+
+In some testing senarios you want to assume all the user authentication stuff just work (it's the responsibility of `whoru` anyway.)
+`whoru` provides a helper method using `RSpec` to do that:
+ 
+in `rails_helper.rb`:
+
+```ruby
+require 'whoru/stub'
+```
+
+in `some_controller_spec.rb`
+
+```ruby
+describe 'POST :create' do
+  include Whoru::Stub
+
+  before :each do
+    stub_authenticate
+  end
+end
+```
+
+this will make the authentication filter always pass in the test case.
 
 
 ## Licence: 
