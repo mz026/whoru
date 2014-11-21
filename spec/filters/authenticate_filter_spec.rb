@@ -7,7 +7,7 @@ describe Whoru::AuthenticateFilter do
     def User.where(options); end
 
     let(:params) { {} }
-    let(:request) { double(:request, :headers => {}) }
+    let(:request) { double(:request, :headers => {}, :cookies => {}) }
     let(:controller) do
       double(:controller, :params => params,
                           :request => request)
@@ -40,6 +40,21 @@ describe Whoru::AuthenticateFilter do
       end
 
       context "and if key `token_header` not in headers" do
+        context "and if cookies['WHORU'] exists" do
+          let(:access_token) { 'the-token' }
+          before :each do
+            controller.request.cookies['WHORU'] = access_token
+          end
+          it "passes if matched" do
+            expect(user).to receive(:has_access_token?).with(access_token).and_return(true)
+            subject.before(controller)
+          end
+
+          it "returns 401 if not matched" do
+            expect(user).to receive(:has_access_token?).with(access_token).and_return(false)
+            expect_response_tobe(401)
+          end
+        end
         it "returns 401" do
           expect_response_tobe(401)
         end

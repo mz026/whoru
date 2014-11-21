@@ -24,7 +24,7 @@ module Whoru
 
 
       def access_token controller
-        controller.request.headers[@options[:header_token]]
+        controller.request.headers[@options[:header_token]] || controller.request.cookies[Whoru::Login::COOKIE_KEY]
       end
       private :access_token
 

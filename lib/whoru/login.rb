@@ -1,4 +1,5 @@
 module Whoru::Login
+  COOKIE_KEY = 'WHORU'
   def self.included base
 
     base.class_eval do
@@ -6,7 +7,7 @@ module Whoru::Login
       def _whoru_login user
         if params[:cookie]
           ensure_method_exists(user, :generate_web_access_token)
-          cookies['WHORU'] = user.generate_web_access_token
+          cookies[COOKIE_KEY] = user.generate_web_access_token
           render :json => user
         else
           ensure_method_exists(user, :generate_access_token)
