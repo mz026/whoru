@@ -81,13 +81,13 @@ RSpec.describe UsersController, :type => :controller do
         expect(user).not_to receive(:generate_access_token)
       end
 
-      it "generate web_access_token and put it into `TOKEN_POSTMAN` in cookie" do
+      it "generate web_access_token and put it into `WHORU` in cookie" do
         allow(user).to receive(:generate_web_access_token)
                           .and_return(web_access_token)
 
         post :login_method, params
 
-        expect(controller.send(:cookies)['TOKEN_POSTMAN']).to eq(web_access_token)
+        expect(controller.send(:cookies)['WHORU']).to eq(web_access_token)
       end
 
       it "ensure UserClass#generate_web_access_token exists" do

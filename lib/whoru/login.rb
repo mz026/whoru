@@ -6,7 +6,7 @@ module Whoru::Login
       def _postman_login user
         if params[:cookie]
           ensure_method_exists(user, :generate_web_access_token)
-          cookies['TOKEN_POSTMAN'] = user.generate_web_access_token
+          cookies['WHORU'] = user.generate_web_access_token
           render :json => user
         else
           ensure_method_exists(user, :generate_access_token)
