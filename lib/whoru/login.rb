@@ -3,7 +3,7 @@ module Whoru::Login
 
     base.class_eval do
 
-      def _postman_login user
+      def _whoru_login user
         if params[:cookie]
           ensure_method_exists(user, :generate_web_access_token)
           cookies['WHORU'] = user.generate_web_access_token
@@ -15,7 +15,7 @@ module Whoru::Login
           render :json => user_hash
         end
       end
-      private :_postman_login
+      private :_whoru_login
 
       def ensure_method_exists(user, method_name)
         unless user.respond_to?(method_name)
@@ -25,17 +25,17 @@ module Whoru::Login
       end
       private :ensure_method_exists
 
-      def _postman_conflict
+      def _whoru_conflict
         render :json => { :reason => 'login failed' },
                :status => 409
       end
-      private :_postman_conflict
+      private :_whoru_conflict
 
-      def _postman_bad_request e
+      def _whoru_bad_request e
         render :json => { :reason => e.message },
                :status => 400
       end
-      private :_postman_bad_request
+      private :_whoru_bad_request
 
     end
 
@@ -57,12 +57,12 @@ module Whoru::Login
             user = user_class.login(params.require(:account), params.require(:validator))
 
             if user
-              _postman_login(user)
+              _whoru_login(user)
             else
-              _postman_conflict
+              _whoru_conflict
             end
           rescue ActionController::ParameterMissing => e
-            _postman_bad_request(e)
+            _whoru_bad_request(e)
           end
         end
       end
