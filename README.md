@@ -11,7 +11,7 @@ add `gem 'whoru'` in the `Gemfile` and then `$ bundle install`
 in `users_controller.rb`
 ```ruby
 class UsersController < ApplicationController
-  include Whoru
+  include Whoru::Login
   login FacebookUser, :with => :facebook_login
 end
 ```
